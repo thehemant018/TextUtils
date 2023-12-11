@@ -1,16 +1,17 @@
 
 import React,{useState } from 'react';
 import './App.css';
-// import About from './components/About';
+import About from './components/About';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import Alert from './components/Alert';
 
-// import{
-//   BrowserRouter,
-//   Route,
-//   Routes
-// } from 'react-router-dom';
+import{
+  BrowserRouter,
+  Route,
+  Routes
+} from 'react-router-dom';
+//if you want to not upload gh-pages the npm uninstall gh-pages   for  deploy on normal or other 
 
 
 function App() {
@@ -24,20 +25,30 @@ function App() {
     })
     setTimeout(()=>{
       setAlert(null);
-    },3000)
+    },3000);
   }
-  const toggleMode=()=>{
+  const removeBodyClasses=()=>{
+    document.body.classList.remove('bg-light')
+    document.body.classList.remove('bg-dark')
+    document.body.classList.remove('bg-warning')
+    document.body.classList.remove('bg-success')
+    document.body.classList.remove('bg-danger')
+  }
+  const toggleMode=(cls)=>{
+    removeBodyClasses();
+    // console.log(cls)
+    document.body.classList.add('bg-'+cls)
     if(mode === 'light'){
       setMode('dark');
       document.body.style.backgroundColor='#042743';
       showAlert('Dark mode has been enabled','success');
-      document.title='TextUtils-DarkMode';
+      // document.title='TextUtils-DarkMode';
     }
     else{
       setMode('light');
       document.body.style.backgroundColor='white';
       showAlert('Light mode has been enabled','success');
-      document.title='TextUtils-LightMode';
+      // document.title='TextUtils-LightMode';
     }
   }
   
@@ -62,21 +73,21 @@ function App() {
     {/* now we use Navbar component for reduce ambiguity in code */}
     {/* <Navbar/>     import navbar component */}
     {/* <Navbar title=''textutils/>   here we return props  */}
-    {/* <BrowserRouter>  */}      {/*because router not work rpoperly on github */}
+    <BrowserRouter>       {/*because router not work rpoperly on github */}
     <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
     {/* <Alert alert='This is temerory alert' /> */}
      <Alert alert={alert} />
-    {/* <Routes>  */}
+    <Routes> 
         {/* /users --->component1
            /user/home ---> component1 
            to eleminate this use exact*/}
-          {/* <Route exact path="/about" element={<About />}>
+          <Route exact path="/about" element={<About  mode={mode} />}>
           </Route>
-          <Route exact path="/" element={<TextForm showAlert={showAlert} heading='Enter the text to analyze' mode={mode} />}>
+          <Route exact path="/" element={<TextForm showAlert={showAlert} heading='Try TextUtils- Word counter,Character counter,Remove extra spaces' mode={mode} />}>
           </Route>
         </Routes>
-        </BrowserRouter> */}
-         <TextForm showAlert={showAlert} heading='Enter the text to analyze' mode={mode} />
+        </BrowserRouter>
+         {/* <TextForm showAlert={showAlert} heading='Enter the text to analyze' mode={mode} /> */}
     
     </>
   );
